@@ -1,0 +1,84 @@
+x-backend-environment: &backend-environment
+    DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:?Set POSTGRES_USER in .env}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:?Set POSTGRES_DB in .env}
+    REDIS_URL: redis://redis:6379/0
+    LOG_LEVEL: ${LOG_LEVEL:-INFO}
+    MASTER_KEK_B64: ${MASTER_KEK_B64:?Set MASTER_KEK_B64 in .env}
+    HMAC_PEPPER_B64: ${HMAC_PEPPER_B64:?Set HMAC_PEPPER_B64 in .env}
+    JWT_SECRET_B64: ${JWT_SECRET_B64:?Set JWT_SECRET_B64 in .env}
+    COOKIE_SECURE: ${COOKIE_SECURE:-true}
+    SOURCE_MAX_BYTES: ${SOURCE_MAX_BYTES:-5242880}
+    SOURCE_FETCH_TIMEOUT_SECONDS: ${SOURCE_FETCH_TIMEOUT_SECONDS:-10}
+    SOURCE_MAX_REDIRECTS: ${SOURCE_MAX_REDIRECTS:-3}
+    EXTRACTION_MAX_CHARACTERS: ${EXTRACTION_MAX_CHARACTERS:-2000000}
+    EXTRACTION_MAX_PDF_PAGES: ${EXTRACTION_MAX_PDF_PAGES:-100}
+    EXTRACTION_MAX_DOCX_UNCOMPRESSED_BYTES: ${EXTRACTION_MAX_DOCX_UNCOMPRESSED_BYTES:-20000000}
+    SMTP_HOST: ${SMTP_HOST:-}
+    SMTP_PORT: ${SMTP_PORT:-587}
+    SMTP_USERNAME: ${SMTP_USERNAME:-}
+    SMTP_PASSWORD: ${SMTP_PASSWORD:-}
+    SMTP_FROM: ${SMTP_FROM:-}
+
+services:
+  api:
+    build:
+      context: .
+    environment: *backend-environment
+    ports:
+      - "${API_PORT:-8000}:8000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test:
+        - CMD
+        - python
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/readyz', timeout=2)"
+      interval: 10s
+      timeout: 3s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+    command: ["uv", "run", "--no-sync", "arq", "app.modules.scans.worker.WorkerSettings"]
+    environment: *backend-environment
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:?Set POSTGRES_USER in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: ${POSTGRES_DB:?Set POSTGRES_DB in .env}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U \"$${POSTGRES_USER}\" -d \"$${POSTGRES_DB}\""]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  redis_data:

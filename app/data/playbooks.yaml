@@ -1,0 +1,227 @@
+- id: public-email
+  platform: generic
+  title: Reduce public email exposure
+  description: Limit where your personal email address is displayed publicly.
+  finding_types:
+    - EMAIL_ADDRESS
+  steps:
+    - Remove the personal address from public profile fields and pages you control.
+    - Use a separate public contact address where a public address is necessary.
+    - Review search-engine results for copies on pages you control and request refreshes where available.
+  effort_minutes: 15
+  expected_score_gain: 5
+- id: public-phone
+  platform: generic
+  title: Reduce public phone exposure
+  description: Remove or restrict personal phone details on public pages you control.
+  finding_types:
+    - PHONE_NUMBER
+  steps:
+    - Remove the personal number from public profile and contact fields where it is not required.
+    - Review account privacy and discoverability settings for phone-number lookup.
+    - Prefer a dedicated business contact channel when public contact is necessary.
+  effort_minutes: 20
+  expected_score_gain: 7
+- id: public-identity
+  platform: generic
+  title: Review public identity details
+  description: Minimize personal identity details that are not needed on public profiles.
+  finding_types:
+    - PERSON
+    - ORGANIZATION
+  steps:
+    - Review public profile text and remove identity details that are not needed.
+    - Check whether the same details appear on other pages you control.
+    - Adjust profile visibility where the service provides that option.
+  effort_minutes: 15
+  expected_score_gain: 4
+- id: public-birth-date
+  platform: generic
+  title: Restrict birth-date details
+  description: Remove birth-date details from public profile fields and pages.
+  finding_types:
+    - DOB_DATE
+    - DATE_TIME
+  steps:
+    - Remove full birth dates from public profile fields and posts you control.
+    - Review audience settings for older posts that include date details.
+    - Keep required account-recovery information private to the service.
+  effort_minutes: 15
+  expected_score_gain: 8
+- id: public-location
+  platform: generic
+  title: Reduce location detail
+  description: Limit precise location details exposed by public profiles or posts.
+  finding_types:
+    - LOCATION
+    - US_ZIP_CODE
+  steps:
+    - Remove home-address or precise-location details from public profile content.
+    - Review public posts and photo metadata for location details before sharing.
+    - Use broad regional descriptions instead of precise location when appropriate.
+  effort_minutes: 20
+  expected_score_gain: 6
+- id: public-handle
+  platform: generic
+  title: Review public account identifiers
+  description: Reduce unnecessary links between public accounts.
+  finding_types:
+    - SOCIAL_HANDLE
+  steps:
+    - Review public bios and remove account links that you do not want connected.
+    - Consider using different public identifiers for accounts with different audiences.
+    - Check profile discoverability settings on services you control.
+  effort_minutes: 20
+  expected_score_gain: 4
+- id: public-financial-identifiers
+  platform: generic
+  title: Remove sensitive financial identifiers
+  description: Remove financial identifiers from pages that are publicly accessible.
+  finding_types:
+    - CREDIT_CARD
+    - IBAN_CODE
+    - US_SSN
+  steps:
+    - Remove the identifier from public content and contact the site owner if you cannot edit it.
+    - If a payment-card number was genuinely exposed, contact the issuer using its official channel.
+    - If a government identifier was genuinely exposed, follow the issuing authority's identity-protection guidance.
+  effort_minutes: 30
+  expected_score_gain: 10
+- id: linkedin-profile-review
+  platform: linkedin
+  title: Review public LinkedIn details
+  description: Reduce personal details exposed on your public LinkedIn profile.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Review your public-profile preview and remove personal contact or location details that are not needed.
+    - Review profile visibility and contact fields using LinkedIn's current privacy controls.
+    - Check public posts and profile sections you control for sensitive identifiers.
+  effort_minutes: 25
+  expected_score_gain: 8
+- id: instagram-profile-review
+  platform: instagram
+  title: Review public Instagram details
+  description: Limit personal details exposed through your public Instagram profile and posts.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Review your bio and public contact options; remove details that are not needed.
+    - Review account visibility and tagged-content controls using Instagram's current privacy settings.
+    - Check public posts and profile details you control for precise location or sensitive identifiers.
+  effort_minutes: 25
+  expected_score_gain: 8
+- id: github-profile-review
+  platform: github
+  title: Review public GitHub details
+  description: Reduce personal contact details in your public GitHub profile and repositories.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Review your public profile and remove personal contact or location details that are not needed.
+    - Use GitHub's email privacy setting and its generated noreply address for future commits.
+    - Review public repositories you control for committed personal identifiers; rotate exposed credentials through their issuer.
+  effort_minutes: 30
+  expected_score_gain: 8
+- id: x-profile-review
+  platform: x
+  title: Review public X details
+  description: Reduce personal details exposed in your public X profile and posts.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Review your bio and public profile fields; remove contact and location details that are not needed.
+    - Review discoverability and audience controls using X's current privacy settings.
+    - Check public posts you control for sensitive identifiers and precise location details.
+  effort_minutes: 25
+  expected_score_gain: 8
+- id: google-account-review
+  platform: google
+  title: Review public Google account details
+  description: Limit personal details visible on Google account profile surfaces.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Review your public profile information and remove details that do not need to be visible.
+    - Use Google's current account and profile visibility controls to limit public information.
+    - Review public pages and services you control for copied contact or location details.
+  effort_minutes: 25
+  expected_score_gain: 8
+- id: generic-website-review
+  platform: website
+  title: Review your public website details
+  description: Reduce personal details on public website pages you control.
+  finding_types:
+    - CREDIT_CARD
+    - DATE_TIME
+    - DOB_DATE
+    - EMAIL_ADDRESS
+    - IBAN_CODE
+    - LOCATION
+    - ORGANIZATION
+    - PERSON
+    - PHONE_NUMBER
+    - SOCIAL_HANDLE
+    - US_SSN
+    - US_ZIP_CODE
+  steps:
+    - Remove personal details from pages you control when they are not needed.
+    - If you cannot edit a page, contact its owner and ask for removal or redaction.
+    - Review cached or indexed copies after the page has been updated.
+  effort_minutes: 20
+  expected_score_gain: 7

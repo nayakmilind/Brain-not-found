@@ -1,0 +1,15 @@
+method_version: uniqueness-type-proxy-v1
+reference_cohort_size: 1000000
+type_selectivity:
+  CREDIT_CARD: 0.01
+  DATE_TIME: 0.08
+  DOB_DATE: 0.04
+  EMAIL_ADDRESS: 0.01
+  IBAN_CODE: 0.01
+  LOCATION: 0.1
+  ORGANIZATION: 0.1
+  PERSON: 0.1
+  PHONE_NUMBER: 0.01
+  SOCIAL_HANDLE: 0.01
+  US_SSN: 0.01
+  US_ZIP_CODE: 0.05
